@@ -2,11 +2,11 @@
 
 A data-driven Streamlit application that provides strategic insights into workforce dynamics through year-over-year cohort analysis. This dashboard helps HR leaders and executives identify critical talent risks, stagnation patterns, and intervention opportunities.
 
-## 🎯 Project Overview
+##  Project Overview
 
 This analytics dashboard analyzes employee data across two consecutive years (2024-2025) to uncover hidden patterns in workforce dynamics, retention challenges, and manager effectiveness. It transforms raw HR data into actionable strategic insights using advanced cohort analysis and visualization techniques.
 
-## 📊 Key Insights Provided
+##  Key Insights Provided
 
 ### 1. **Intervention Effectiveness Failure**
 - **What it shows:** Success/failure rate of retention efforts for high-risk talent
@@ -46,7 +46,7 @@ This analytics dashboard analyzes employee data across two consecutive years (20
   - Count of critical employees requiring immediate intervention
   - Recommended action: Schedule stay interviews within 7 days
 
-## 🔍 How It Works
+##  How It Works
 
 ### Data Processing
 The dashboard applies sophisticated cohort logic to categorize employees:
@@ -68,7 +68,7 @@ The dashboard merges 2024 and 2025 datasets to track:
 - Manager and department changes
 - Improvement or regression in stagnation/risk status
 
-## 💡 Use Cases
+##  Use Cases
 
 This dashboard is ideal for:
 - **HR Leaders:** Strategic workforce planning and risk mitigation
@@ -79,12 +79,3 @@ This dashboard is ideal for:
 ## 👤 Author
 
 - GitHub: [@smitrami31](https://github.com/smitrami31)
-
-## ⭐ Show Your Support
-
-Give a ⭐️ if this project helped you improve your HR analytics!
-
----
-
-**Built with ❤️ using Streamlit and Python**
-
