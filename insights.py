@@ -138,47 +138,32 @@ if f24 and f25:
             st.plotly_chart(fig2, use_container_width=True)
             st.caption("Top 5 Managers with the highest number of stagnant team members in 2025.")
 
-    # =========================================================================
-    # ROW 2: INSIGHT 3 & 4
-    # =========================================================================
     row2_col1, row2_col2 = st.columns(2)
 
-    # --- INSIGHT 3: SUCCESS PATTERNS ---
+    # INSIGHT 3: SUCCESS PATTERNS
     with row2_col1:
         with st.container(border=True):
             st.subheader("3. Cross-Functional Success Pattern")
             st.markdown("**Insight:** Changing managers is the #1 predictor of breaking out of stagnation.")
             
-            # Data Prep: Who was stagnant in 24 and retained?
             stagnant_retained = merged[(merged['is_stagnant_24'] == True) & (merged['status'] == 'Retained')].copy()
-            
-            # Did they improve?
             stagnant_retained['Outcome'] = np.where(stagnant_retained['is_stagnant_25'] == False, 'Improved', 'Stayed Stagnant')
             
-            # Did they change managers?
             stagnant_retained['Manager Change'] = np.where(
                 stagnant_retained['Manager_24'] != stagnant_retained['Manager_25'], 
                 'Changed Manager', 
                 'Same Manager'
             )
-            
-            # Grouping
             success_metrics = stagnant_retained.groupby(['Manager Change', 'Outcome']).size().reset_index(name='Count')
             
-            fig3 = px.bar(
-                success_metrics, 
-                x='Manager Change', 
-                y='Count', 
-                color='Outcome', 
-                barmode='group',
+            fig3 = px.bar(success_metrics, x='Manager Change', y='Count', color='Outcome', barmode='group',
                 color_discrete_map={'Improved': '#00CC96', 'Stayed Stagnant': '#EF553B'}
             )
             fig3.update_layout(margin=dict(t=0, b=0, l=0, r=0), height=300)
             st.plotly_chart(fig3, use_container_width=True)
-            
             st.caption("Comparison of improvement rates between employees who moved teams vs those who stayed.")
 
-    # --- INSIGHT 4: DEPT CONCENTRATION ---
+    # INSIGHT 4: DEPT CONCENTRATION
     with row2_col1:
         with row2_col2:
             with st.container(border=True):
@@ -200,21 +185,11 @@ if f24 and f25:
                 top_depts = dept_25.head(5)['Department'].tolist()
                 dept_filtered = dept_combined[dept_combined['Department'].isin(top_depts)]
                 
-                fig4 = px.bar(
-                    dept_filtered,
-                    x='Department',
-                    y='Count',
-                    color='Year',
-                    barmode='group',
-                    color_discrete_sequence=['#636EFA', '#EF553B']
-                )
+                fig4 = px.bar(dept_filtered,x='Department',y='Count',color='Year',barmode='group',color_discrete_sequence=['#636EFA', '#EF553B'])
                 fig4.update_layout(margin=dict(t=0, b=0, l=0, r=0), height=300)
                 st.plotly_chart(fig4, use_container_width=True)
                 st.caption("Year-over-Year growth of stagnant employees by Department.")
 
-    # =========================================================================
-    # ROW 3: INSIGHT 5 (FULL WIDTH)
-    # =========================================================================
     with st.container(border=True):
         st.subheader("5. Dual-Risk Hidden Gems (High ROI Targets)")
         st.markdown("""
@@ -223,18 +198,9 @@ if f24 and f25:
         """)
         
         # Data Prep
-        dual_risk = merged[
-            (merged['is_stagnant_24'] == True) & 
-            (merged['is_risk_24'] == True)
-        ].copy()
-        
+        dual_risk = merged[(merged['is_stagnant_24'] == True) & (merged['is_risk_24'] == True)].copy()
         if not dual_risk.empty:
-            cols_to_show = [
-                'First Name_24', 'Last Name_24', 'Department_24', 
-                'Manager_24', 'Talent & Potential_24', 'Employee replacement_24'
-            ]
-            
-            # Formatting for display
+            cols_to_show = ['First Name_24', 'Last Name_24', 'Department_24', 'Manager_24', 'Talent & Potential_24', 'Employee replacement_24']
             display_df = dual_risk[cols_to_show].rename(columns={
                 'First Name_24': 'First Name',
                 'Last Name_24': 'Last Name',
@@ -245,7 +211,6 @@ if f24 and f25:
             })
             
             col_kpi, col_table = st.columns([1, 3])
-            
             with col_kpi:
                 total_liability = display_df['Replacement Liability'].sum()
                 st.metric("Total Liability", f"${total_liability:,.0f}")
@@ -257,8 +222,7 @@ if f24 and f25:
                     display_df.style.format({'Replacement Liability': '${:,.0f}'}),
                     use_container_width=True
                 )
-        else:
-            st.success("No employees currently fit the Dual-Risk criteria.")
+        else: st.success("No employees currently fit the Dual-Risk criteria.")
 
 else:
     # Empty State
